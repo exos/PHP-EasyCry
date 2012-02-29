@@ -82,19 +82,18 @@ FnNYStIyU+8hWq+P51BJFCVnMbFi2+7JJ8rF9VZUXFFjbr1iAqX3FjOX6o+c
 bBMx3DkO
 ```
 
-Vertion 2.0 (beta):
+Vertion 2.0-1 (beta):
 
 - http://www.kriptopolis.org/node/9101
 
 ```
-RPLyspU8NcF/K6aEUSFnBjBXiYOod35guolgv1OHjYVUWmGfjF3AhauMdoma
-XFyAV1lkillZpo2Ohl1+q1yPW4thdlRZW417XFq+fniBh1emhXeJdId7e3eo
-kKlgX4inh6mJrKeGjlqGWneIrId7jKh3e45hq6t5YFSQWKZaVVqNWIliYFZd
-i152W4mJh12ri/Q3AZanp1d4NiTFu+U5RENU4pSXzDiWWe5LTFJ0thaXrNxh
-JKhlF6pT3RtpJ1Pr8cjXWnWcmI4dHHzMAWzPp4xXHsAxF8lVyUWNpIksmF64
-swy0oWrEpsQ/PQe/6Bpmsd9e8eNH7WnXSAo55LH3nmnuLRyfs7SjltBBumFC
-plCOUYwXdsGgjsVxiImeyXGUQReasIPKyLm+Dqwze9ziVyKAOZylk884dpme
-C0xzONXu1/Rok8OlthBERn6u9VVwQpmIX3+oj3+g4a6VdXLq7pbCQGQOGByE
-S7gSyQCSM7vGTuoCXBuwtYy9wDjwIxksk5kXZhWzN4aeAnCrUS0QlcTRkfHl
-MfHIrFzvjXR1WXWL
-``` 
+YuvzadE6lxI1rsP3+VnhlzBicwXkBYN/Gyuuuxzndd6MDN4Xs81xWCB6PK3p
+hDzgit9cxMu0eOnpjSOPaIZ+5HnTiUtk32e0sX+7vVzmOvuh4I/IS/XsftC2
+92CuerzcyNLYD8Rv0Fi4in7MUAu/W3kQxuR8DbUJQ+27S8BDR+Cjr3CHwqd5
+X4uOhLGL1V7sszrNt0i1C7uliXpj04ZCFTvAqDwQltMjxa1io4W8hSfcFpOo
+cwkMDfAzl9icXBMShbrdy/UfWje+qhiTihTsLk9EhgJFvdwGNZ0Il+Bk+KfA
+2fRAQmY2bDoCygx05j9i4vOoAZ31jvJAvpiR98uSohBMOiumiwIEI+9Ls6ht
+5zpiJ+HetIuy0mBfEVIEREeKW4Hw2BgZ+Q4CciHagD9SJf4LlxK27MTXKHNm
+1HI9TkCSCV5i4XTr5UI3+vGYJ8hJ5aOLOWTbo6cfujaPO4FYa4RiKVzxIPAE
+Ig9NmOtlsgHXoJiMFCPA8or7cOz4fJkW7+nQ0CMgx5X5
+```
