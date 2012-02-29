@@ -145,14 +145,17 @@ class EasyCry {
 	    		$order = self::getOrderRange(0,$this->bloksize-1,substr($parshe.$parshe,$phc,4));
 
 	    		for ($j=0; $j < $this->bloksize;$j++) {
+
+				$inc = hexdec(substr($parshe,$phc,2));
+				
 		  		$pdata .= self::powcaesar(
 					$tdata{$order[$j]},
-					$parshe{$phc}
+					$inc
 				);
 		  		
-				$phc++;
+				$phc+=2;
 		  		
-				if ($phc >= 128) {
+				if ($phc >= 126) {
 					$phc = 0;
 					$parshe = hash('sha512',$clave . $asum . $parshe );
 				}
@@ -208,12 +211,17 @@ class EasyCry {
 	    		$buf = str_repeat("a",$bs);
 
 			foreach($order as $k => $n) {
+				
+				$inc = hexdec(substr($parshe,$phc,2));
+
 				$buf{$n} = self::powcaesar(
 					$tdata{$k},
-					$parshe{$phc}
+					$inc
 					,true);
-				$phc++;
-				if ($phc >= 128) {
+
+				$phc+=2;
+
+				if ($phc >= 126) {
 					$phc = 0;
 					$parshe = hash('sha512',$clave . $sig . $parshe );
 				}
