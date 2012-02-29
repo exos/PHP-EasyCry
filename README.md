@@ -84,6 +84,8 @@ bBMx3DkO
 
 Vertion 2.0 (beta):
 
+- http://www.kriptopolis.org/node/9101
+
 ```
 RPLyspU8NcF/K6aEUSFnBjBXiYOod35guolgv1OHjYVUWmGfjF3AhauMdoma
 XFyAV1lkillZpo2Ohl1+q1yPW4thdlRZW417XFq+fniBh1emhXeJdId7e3eo
