@@ -80,4 +80,19 @@ wsOwkjxPMuVVzpoGJwjcEeygJUQgrLr730hmdpHO20FmHdVqnNWlkz1btK0o
 jk+Or8Fk23xadkzCqzoR3gjK85opFlsdpLns+KebedTgkzdTjsvTOixV42VY
 FnNYStIyU+8hWq+P51BJFCVnMbFi2+7JJ8rF9VZUXFFjbr1iAqX3FjOX6o+c
 bBMx3DkO
+```
+
+Vertion 2.0 (beta):
+
+```
+RPLyspU8NcF/K6aEUSFnBjBXiYOod35guolgv1OHjYVUWmGfjF3AhauMdoma
+XFyAV1lkillZpo2Ohl1+q1yPW4thdlRZW417XFq+fniBh1emhXeJdId7e3eo
+kKlgX4inh6mJrKeGjlqGWneIrId7jKh3e45hq6t5YFSQWKZaVVqNWIliYFZd
+i152W4mJh12ri/Q3AZanp1d4NiTFu+U5RENU4pSXzDiWWe5LTFJ0thaXrNxh
+JKhlF6pT3RtpJ1Pr8cjXWnWcmI4dHHzMAWzPp4xXHsAxF8lVyUWNpIksmF64
+swy0oWrEpsQ/PQe/6Bpmsd9e8eNH7WnXSAo55LH3nmnuLRyfs7SjltBBumFC
+plCOUYwXdsGgjsVxiImeyXGUQReasIPKyLm+Dqwze9ziVyKAOZylk884dpme
+C0xzONXu1/Rok8OlthBERn6u9VVwQpmIX3+oj3+g4a6VdXLq7pbCQGQOGByE
+S7gSyQCSM7vGTuoCXBuwtYy9wDjwIxksk5kXZhWzN4aeAnCrUS0QlcTRkfHl
+MfHIrFzvjXR1WXWL
 ``` 
