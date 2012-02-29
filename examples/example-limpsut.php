@@ -4,8 +4,8 @@
 
 require ("../lib/EasyCry.php");
 
-
 $oCry = new EasyCry();
+
 
 // Mostramos como trabaja el metodo estaico para codificar con Cesar:
 
@@ -30,5 +30,5 @@ echo "Lorem Ipsum encriptado:	\n\n" . wordwrap($enc,60,"\n",true) ."\n\n";
 // Des-encriptamos usando la misma clave "clave"
 $enc = $oCry->decode($enc,"clave");
 
-echo "Desencriptando :\n\n {$enc['data']}\n";
+echo "Desencriptando :\n\n{$enc['data']}\n";
 

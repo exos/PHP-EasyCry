@@ -55,6 +55,26 @@ class EasyCry {
 
 	}
 
+	public static function powcaesar ($char, $level = 3, $invert = false) {
+
+		if (is_string($level)) {
+                        $level = ord($level);
+                }
+
+                $c = ord($char);
+
+		$r = (int) ($level/3)^2 + $level;
+
+		if ($invert) {
+			$c -= $r%255;
+		} else {
+			$c += $r%255;
+		}
+
+		return chr($c);
+
+	}
+
 	public static function getOrderRange ($min, $max, $seed = null) {
 
 		if (is_null($seed)) $seed = microtime(true);
@@ -76,19 +96,27 @@ class EasyCry {
 	}
 
 	public function encode ($data, $clave) {
+
 		if ($this->compress) $data = gzdeflate($data,9);
+
+		if ($this->bloksize < 1|| $this->bloksize > 49) {
+			throw new Exception ("Block size tiene que estar entre 1 y 255");
+		}
 
 		$time = dechex(time());
 		$size = dechex(strlen($data));
-		$msig = md5($time.$size);
+		$msig = substr(md5($time.$size.$clave),3,4);
+		$sum  = md5($data);
 
 		$meta = array (
-			't'=>$time,
-			'c'=>$size,
-			'h'=>$msig,
+			"t:$time",
+			"c:$size",
+			"h:$msig",
+			"s:$sum",
+			'z:' . ( $this->compress ? '1' : '0')
 		);
-	
-		$meta = substr(serialize($meta). chr(0) . hash('sha512',microtime(true)*rand(1,999)),0,128);
+
+		$meta = substr(implode('|',$meta). ';' . hash('sha512', $sum . microtime(true) ),0,128);
 
 		$data = $meta.$data;
 
@@ -97,85 +125,140 @@ class EasyCry {
         	$dc = (int) ($c / $this->bloksize) +1;
         	$dc *= $this->bloksize;
 
-                $data = substr($data.md5(microtime(true)),0,$dc);
+                $data = substr($data.md5($sum . microtime(true)),0,$dc);
 
-		$sig = hash("sha256",$data);
+		$asum = md5(md5($clave).hash('sha512',$data));
 
-		$parshe = hash('sha512',$clave . $sig);
+		$ao = md5($asum.$clave);
+		$binfo = self::powcaesar(chr($this->bloksize) , $ao{7} );
+
+		$parshe = hash('sha512',$clave . $asum );
 
 		$pdata = "";
 		$phc = 0;
 
 		for ($i=0; $i < $dc; $i+=$this->bloksize) {
 	    		$tdata = substr($data,$i,$this->bloksize);
+			
+			
+
 	    		$order = self::getOrderRange(0,$this->bloksize-1,substr($parshe.$parshe,$phc,4));
 
 	    		for ($j=0; $j < $this->bloksize;$j++) {
-		  		$pdata .= self::caesar(
+		  		$pdata .= self::powcaesar(
 					$tdata{$order[$j]},
 					$parshe{$phc}
 				);
-		  		$phc++;
-		  		if ($phc >= 128) $phc = 0;
+		  		
+				$phc++;
+		  		
+				if ($phc >= 128) {
+					$phc = 0;
+					$parshe = hash('sha512',$clave . $asum . $parshe );
+				}
+
 	   		}
 		}
 
-		return $this->binary? $sig.$pdata : base64_encode($sig.$pdata);
+		$isum = "";
+
+		for ($i = 0; $i < strlen($asum); $i+=2) {
+			$isum .= chr(hexdec( substr($asum,$i,2) ) );
+		}		
+
+		return $this->binary? $isum.$binfo.$pdata : base64_encode($isum.$binfo.$pdata);
 
 	}
 
 
 	public function decode ($content, $clave) {
 
-		$content = base64_decode($content);
-		$sig = substr($content,0,64);
+		if (!$this->binary) $content = base64_decode($content);
 
-		$data = substr($content,64);
+		$binfo = $content{16};
+		$isig = substr($content,0,16);
+
+		$sig = "";
+
+                for ($i = 0; $i < strlen($isig); $i++) {
+                        $sig .=  substr( '0' . dechex(ord($isig{$i}) ) ,-2);  ;
+                }
+
+
+		$ao = md5($sig.$clave);
+                $bs = ord( self::powcaesar($binfo , $ao{7}, true ) );
+
+		$bs = ord( self::powcaesar( $binfo , $ao{7} , true  ) );
+
+		$data = substr($content,17);
 
         	$parshe = hash('sha512',$clave . $sig);
 	
 		$c = strlen($data);
- 	  	$dc = (int) ($c / $this->bloksize) ;
-		$dc *= $this->bloksize;
+ 	  	$dc = (int) ($c / $bs) ;
+		$dc *= $bs;
+
 		$pdata = "";
 		$phc = 0;
 
-		for ($i=0; $i < $c; $i+=$this->bloksize) {
-	    		$tdata = substr($data,$i,$this->bloksize);
-			$order = self::getOrderRange(0,$this->bloksize-1,substr($parshe.$parshe,$phc,4));
+		for ($i=0; $i < $c; $i+=$bs) {
+	    		$tdata = substr($data,$i,$bs);
+			$order = self::getOrderRange(0,$bs-1,substr($parshe.$parshe,$phc,4));
 
-	    		$buf = str_repeat("a",$this->bloksize);
+	    		$buf = str_repeat("a",$bs);
 
 			foreach($order as $k => $n) {
-				$buf{$n} = self::caesar(
+				$buf{$n} = self::powcaesar(
 					$tdata{$k},
 					$parshe{$phc}
 					,true);
 				$phc++;
-				if ($phc >= 128) $phc = 0;
+				if ($phc >= 128) {
+					$phc = 0;
+					$parshe = hash('sha512',$clave . $sig . $parshe );
+				}
 	   		}
 			$pdata.=$buf;
 		}
 
-		$csig = hash('sha256',$pdata);
-		
-		$meta = unserialize( substr($pdata,0,strpos($pdata,chr(0))) );
-       		$hora = hexdec($meta['t']);
-        	$size = hexdec($meta['c']);
-        	$mdsig = $meta['h'];
+		$csig = md5(md5($clave).hash('sha512',$pdata));		
+
+		$meta = substr($pdata,0,strpos($pdata,';')) ;
+
+		$ameta = explode('|',$meta);
+
+		$dmeta = array();
+
+		foreach ($ameta as $val) {
+			$val = explode(':',$val);
+			$dmeta[$val[0]] = $val[1];
+		}
+
+
+
+       		$hora = hexdec($dmeta['t']);
+        	$size = hexdec($dmeta['c']);
+        	$mdsig = $dmeta['h'];
+		$sum = $dmeta['s'];
+		$compress = (bool) $dmeta['z'];
 
 		$data = substr($pdata,128,$size);
+		
+		$asum = md5(md5($clave).hash('sha512',$pdata));
 
-
-		if ($this->compress) $data = gzinflate($data);
-
-		if (false && $mdsig !== md5($meta['t'].$meta['c'])) {
-			throw new Exception ("Error en la metada, posible informacion alterada");
+		if ($asum != $sig) {
+			throw new Exception("Integridad de los datos rota");
 		}
 
-		if (false && $sig !== $csig) {
-			throw new Exception ("Error en el firmado, posible informacion alterada");
+		if ($mdsig != substr(md5(dechex($hora).dechex($size).$clave),3,4)) {
+			throw new Exception("Metadata alterada");
 		}
+
+		if (md5($data) != $sum) {
+			throw new Exception("Checksum no coincide, posible data alterada");
+		}
+
+		if ($compress) $data = gzinflate($data);
 
 		return array(
 			'data' => $data,
